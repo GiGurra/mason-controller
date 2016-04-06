@@ -76,5 +76,5 @@ object MasonController extends Logging {
 
 }
 
-case class PlayerConfig(userName: String, host: String, port: Int, instance: String)
-case class PlayerInput(userName: String, keysPressed: Set[Int])
+
+
