@@ -31,7 +31,7 @@ object MasonController extends Logging {
     new LwjglApplication(app, lwjglConfig)
   }
 
-  private def getPlayerConfig(args: Array[String]): PlayerConfig = {
+  def getPlayerConfig(args: Array[String]): PlayerConfig = {
 
     val argMap = args.zipWithIndex.map { case (a, b) => b -> a }.toMap
 
@@ -59,8 +59,6 @@ object MasonController extends Logging {
     PlayerConfig(userName, host, port, instance)
 
   }
-
-
 
   def getLwjglConfig(args: Array[String]): LwjglApplicationConfiguration = {
     new LwjglApplicationConfiguration {
