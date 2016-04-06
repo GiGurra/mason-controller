@@ -23,10 +23,12 @@ object MasonController extends Logging {
 
     val client = RestClient(playerConfig.host, playerConfig.port, "game server")
     val app = App(playerConfig, client)
-    Await.result(app.postKeys(Set.empty)) // Check in.. see if the connection works
 
-    val lwjglApp = new LwjglApplication(app, lwjglConfig)
+    // Check in.. see if the connection works
+    Await.result(app.postKeys(Set.empty))
 
+    // Now start it!
+    new LwjglApplication(app, lwjglConfig)
   }
 
   private def getPlayerConfig(args: Array[String]): PlayerConfig = {
