@@ -34,7 +34,7 @@ case class App(playerConfig: PlayerConfig, client: RestClient) extends Applicati
     client.put(s"${playerConfig.instance}/${playerConfig.userName}")(Json.write(PlayerInput(playerConfig.userName, pressed)))
   }
 
-  override def render(): Unit = {
+  override def render(): Unit = frame {
     postKeys()
     drawTitle()
     drawArrowKeys()
