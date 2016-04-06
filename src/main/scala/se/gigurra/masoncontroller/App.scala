@@ -36,10 +36,6 @@ case class App(playerConfig: PlayerConfig, client: RestClient) extends Applicati
 
   override def render(): Unit = {
     postKeys()
-    draw()
-  }
-
-  def draw(): Unit = frame {
     drawTitle()
     drawArrowKeys()
     drawSpaceBar()
