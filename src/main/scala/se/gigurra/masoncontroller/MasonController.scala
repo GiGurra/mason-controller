@@ -2,6 +2,9 @@ package se.gigurra.masoncontroller
 
 import java.util.UUID
 
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.twitter.util.Await
+import se.gigurra.fingdx.util.RestClient
 import se.gigurra.serviceutils.twitter.logging.Logging
 
 /**
@@ -15,13 +18,16 @@ object MasonController extends Logging {
 
   def main(args: Array[String]): Unit = {
 
-    val config = getConfig(args)
+    val playerConfig = getPlayerConfig(args)
+    val lwjglConfig = getLwjglConfig(args)
 
+    val client = RestClient(playerConfig.host, playerConfig.port, "game server")
+    val app = App(playerConfig, client)
+    Await.result(app.postKeys(Set.empty)) // Check in.. see if the connection works
 
-    println(config)
   }
 
-  private def getConfig(args: Array[String]): Config = {
+  private def getPlayerConfig(args: Array[String]): PlayerConfig = {
 
     val argMap = args.zipWithIndex.map { case (a, b) => b -> a }.toMap
 
@@ -46,10 +52,25 @@ object MasonController extends Logging {
       DEFAULT_INSTANCE
     })
 
-    Config(userName, host, port, instance)
+    PlayerConfig(userName, host, port, instance)
 
   }
+
+
+
+  def getLwjglConfig(args: Array[String]): LwjglApplicationConfiguration = {
+    new LwjglApplicationConfiguration {
+      title = "Mason Controller"
+      forceExit = false
+      vSyncEnabled = true
+      foregroundFPS = 60
+      backgroundFPS = 60
+      samples = 4
+      resizable = false
+    }
+  }
+
 }
 
-case class Config(userName: String, host: String, port: Int, instance: String)
-case class Input(userName: String, buttonsPressed: Seq[String])
+case class PlayerConfig(userName: String, host: String, port: Int, instance: String)
+case class PlayerInput(userName: String, keysPressed: Set[Int])
