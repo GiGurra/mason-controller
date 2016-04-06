@@ -2,7 +2,7 @@ package se.gigurra.masoncontroller
 
 import java.util.UUID
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
+import com.badlogic.gdx.backends.lwjgl.{LwjglApplication, LwjglApplicationConfiguration}
 import com.twitter.util.Await
 import se.gigurra.fingdx.util.RestClient
 import se.gigurra.serviceutils.twitter.logging.Logging
@@ -24,6 +24,8 @@ object MasonController extends Logging {
     val client = RestClient(playerConfig.host, playerConfig.port, "game server")
     val app = App(playerConfig, client)
     Await.result(app.postKeys(Set.empty)) // Check in.. see if the connection works
+
+    val lwjglApp = new LwjglApplication(app, lwjglConfig)
 
   }
 
